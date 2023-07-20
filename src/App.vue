@@ -3,32 +3,30 @@
     :toolkitItems="toolkitItems"
     :toolkitStyle="toolkitStyle"
     :isVisible="isVisible"
-    @open="this.isVisible = true"
+    @open="
+      (label) => {
+        this.selectedTab = label;
+        this.isVisible = true;
+      }
+    "
     @closeSidebar="this.isVisible = false"
+    :selectedLabel="selectedTab"
     @sentMessage="sentMessage"
-    @chart="ChartBoxFun"
+    @isChatActionArea="ChartBoxFun"
     @input="
       (value) => {
         this.inputMsg = value;
       }
     "
     :ChatComponent="ChatCom"
-    :ChatProps="{
-      inputMsg: inputMsg,
-      chatBoxStyle: chatBoxStyle,
-      emptyChatContent: emptyChatContent,
-      chatBoxHeader: chatBoxHeader,
-      savedTemplates: savedTemplates,
-      chatMessages: chatMessages,
-      userDetails: userDetails,
-    }"
+    :ChatProps="Props"
   />
 
   <div />
 </template>
 
 <script>
-import { ToolKit, Chat } from "./components/index.js";
+import { ToolKit, Chat, Recent } from "./components/index.js";
 import { markRaw } from "vue";
 /* eslint-disable vue/no-unused-components */
 console.log(Chat);
@@ -57,7 +55,7 @@ export default {
               label: "Recent",
               routerLink: "",
               icon: "./assets/icons/history.svg",
-              selectedIcon: "./assets/icons/recent.svg",
+              selectedIcon: "./assets/icons/white-history.svg",
               padding: 10,
             },
           ],
@@ -107,7 +105,8 @@ export default {
       //   toolkitHeight: "100vh",
       // },
       isVisible: false,
-      ChatCom: markRaw(Chat),
+      ChatCom: "",
+      Props: {},
       //chat prop
       chatBoxStyle: {
         logo: "./assets/icons/ai-gradient.svg",
@@ -151,10 +150,12 @@ export default {
       },
       chatMessages: [],
       inputMsg: "",
+      selectedTab: "",
     };
   },
   methods: {
     sentMessage(inputText) {
+      console.log(inputText);
       const obj = {
         isAI: false,
         text: inputText,
@@ -174,12 +175,96 @@ export default {
         isDisabled: false,
         date: new Date().toISOString(),
       };
-      this.chatMessages.push(obj, { ...obj, isAI: true });
+      this.chatMessages.push(obj, {
+        ...obj,
+        isAI: true,
+        id: this.chatMessages?.length + 1,
+      });
     },
     ChartBoxFun(id) {
+      console.log(id);
       this.chatMessages = this.chatMessages?.map((msg) => {
-        return id == msg?.id ? { ...msg, chart: !msg.chart } : msg;
+        return id == msg?.id
+          ? { ...msg, isChatActionArea: !msg.isChatActionArea }
+          : msg;
       });
+    },
+  },
+  watch: {
+    selectedTab(value) {
+      if (value == "Ai") {
+        this.ChatCom = markRaw(Chat);
+        this.Props = {
+          inputMsg: this.inputMsg,
+          chatBoxStyle: this.chatBoxStyle,
+          emptyChatContent: this.emptyChatContent,
+          chatBoxHeader: this.chatBoxHeader,
+          savedTemplates: this.savedTemplates,
+          chatMessages: this.chatMessages,
+          userDetails: this.userDetails,
+        };
+      } else if (value == "Recent") {
+        this.ChatCom = markRaw(Recent);
+        this.Props = {
+          chatBoxHeader: {
+            title: "Recent",
+            showChatBoxHeader: true,
+          },
+
+          userDetails: this.userDetails,
+        };
+      }
+    },
+    chatMessages: {
+      handler() {
+        if (this.selectedTab == "Ai") {
+          this.ChatCom = markRaw(Chat);
+          this.Props = {
+            inputMsg: this.inputMsg,
+            chatBoxStyle: this.chatBoxStyle,
+            emptyChatContent: this.emptyChatContent,
+            chatBoxHeader: this.chatBoxHeader,
+            savedTemplates: this.savedTemplates,
+            chatMessages: this.chatMessages,
+            userDetails: this.userDetails,
+          };
+        } else if (this.selectedTab == "Recent") {
+          this.ChatCom = markRaw(Recent);
+          this.Props = {
+            chatBoxHeader: {
+              title: "Recent",
+              showChatBoxHeader: true,
+            },
+
+            userDetails: this.userDetails,
+          };
+        }
+      },
+      deep: true,
+    },
+    inputMsg(prevous, value) {
+      if (this.selectedTab == "Ai") {
+        this.ChatCom = markRaw(Chat);
+        this.Props = {
+          inputMsg: this.inputMsg,
+          chatBoxStyle: this.chatBoxStyle,
+          emptyChatContent: this.emptyChatContent,
+          chatBoxHeader: this.chatBoxHeader,
+          savedTemplates: this.savedTemplates,
+          chatMessages: this.chatMessages,
+          userDetails: this.userDetails,
+        };
+      } else if (this.selectedTab == "Recent") {
+        this.ChatCom = markRaw(Recent);
+        this.Props = {
+          chatBoxHeader: {
+            title: "Recent",
+            showChatBoxHeader: true,
+          },
+
+          userDetails: this.userDetails,
+        };
+      }
     },
   },
 };

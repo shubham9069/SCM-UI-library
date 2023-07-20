@@ -29,13 +29,17 @@
     <template v-for="section in toolkitItems" :key="section.section">
       <template v-if="section.section == 'Section 1'">
         <div
-          @click="$emit('open')"
+          @click="
+            () => {
+              $emit('open', item.label);
+            }
+          "
           class="sidebaricon1"
           v-for="item in section.items"
           :key="item.label"
           :style="{
             background: `${
-              isVisible && item.label == `Ai`
+              isVisible && item.label == selectedLabel
                 ? 'linear-gradient(135deg, #0074E8 0%, #A933FB 100%)'
                 : 'transparent'
             }`,
@@ -43,7 +47,9 @@
         >
           <img
             :src="
-              isVisible && item.label == `Ai` ? item.selectedIcon : item.icon
+              isVisible && item.label == selectedLabel
+                ? item.selectedIcon
+                : item.icon
             "
           />
         </div>
@@ -86,6 +92,7 @@ export default {
     isVisible: Boolean,
     ChatProps: Object,
     ChatComponent: Object,
+    selectedLabel: String,
   },
   methods: {
     sentMessageParentComponent(obj) {
@@ -112,6 +119,8 @@ export default {
 .sidebar > .sidebaricon2 {
   padding: 0.5rem;
   border-radius: 3px;
+  display: flex;
+  align-items: center;
 }
 .sidebar img {
   width: var(--hds-chatbox-header-logo-width);
