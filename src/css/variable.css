@@ -1,0 +1,137 @@
+:root {
+  --hds-chatbox-header-paddingY: 1rem 0;
+  --hds-chatbox-header-gap: 10px;
+
+  --hds-chatbox-header-logo-height: 24px;
+  --hds-chatbox-header-logo-width: 24px;
+  --hds-chatbox-header-text: 16px;
+  --hds-chatbox-header-text-weight: 600;
+
+  --hds-chatbox-background: linear-gradient(
+    131deg,
+    #cce3fc 0%,
+    #f7f3fa 52.88%,
+    #fffbf8 100%
+  );
+  --hds-sidebar-border: 1px solid #e7ecf1;
+
+  --hds-chatbox-empty-input-margin: 30px 0 24px 0;
+  --hds-chatbox-input-border: 1px solid #d0d7de;
+  --hds-chatbox-input-height: 40px;
+  --hds-chatbox-input-border-radius: 3px 0px 0px 3px;
+  --hds-chatbox-input-background: #fff;
+  --hds-chatbox-input-padding: 0 8px 0 8px;
+  --hds-chatbox-input-width: 100%;
+  --hds-chatbox-input-search-background: #0074e8;
+  --hds-chatbox-input-search-border-radius: 0px 3px 3px 0px;
+  --hds-chatbox-input-search-padding: 0px 8px 0 8px;
+
+  --hds-chatbox-data-skill-head-background: #f8f9fa;
+  --hds-chatbox-data-skill-head-padding: 16px;
+  --hds-chatbox-data-skill-head-gap: 13px;
+  --hds-chatbox-data-skill-head-border: 1px solid #dee2e6;
+  --hds-chatbox-data-skill-head-border-radius: 3px 3px 0px 0px;
+  --hds-chatbox-data-skill-head-font-size: 14px;
+  --hds-chatbox-data-skill-head-font-weight: 600;
+  --hds-chatbox-data-skill-list-background: #fff;
+  --hds-chatbox-data-skill-list-padding: 16px 12px;
+  --hds-chatbox-data-skill-list-gap: 12px;
+  --hds-chatbox-data-skill-card-padding: 8px 12px;
+  --hds-chatbox-data-skill-card-grid-template-columns: 40px 1fr;
+  --hds-chatbox-data-skill-card-border: 1px solid #e9ecef;
+  --hds-chatbox-data-skill-card-border-radius: 16px;
+  --hds-chatbox-data-skill-card-gap: 17px;
+  --hds-chatbox-data-skill-card-icon-height: 40px;
+  --hds-chatbox-data-skill-card-icon-width: 40px;
+  --hds-chatbox-data-skill-card-icon-border-radius: 6px;
+  --hds-chatbox-data-skill-card-info-grid-template-columns: 1fr 40px;
+  --hds-chatbox-data-skill-card-info-gap: 17px;
+  --hds-chatbox-data-skill-card-info-font-size: 12px;
+  --hds-chatbox-data-skill-card-info-font-weight: 600;
+  --hds-chatbox-data-skill-card-info-line-height: 15px;
+
+  --hds-chatbox-saved-template-head-color: #343a40;
+  --hds-chatbox-saved-template-head-gap: 10px;
+  --hds-chatbox-saved-template-head-font-size: 14px;
+  --hds-chatbox-saved-template-head-font-weight: 600;
+
+  --hds-chatbox-saved-template-list-margin: 10px 0;
+  --hds-chatbox-saved-template-card-background: #0074e8;
+  --hds-chatbox-saved-template-card-border: 1px solid #0074e8;
+  --hds-chatbox-saved-template-card-border-radius: 3px 28px 28px 28px;
+  --hds-chatbox-saved-template-card-padding: 8px 20px;
+  --hds-chatbox-saved-template-card-color: #fff;
+  --hds-chatbox-saved-template-card-font-size: 13px;
+  --hds-chatbox-saved-template-card-font-weight: 500;
+
+  --hds-chatbox-gap: 8px;
+  --hds-chatbox-width: 100%;
+  --hds-chatbox-padding: 14px;
+
+  --hds-chatbox-container-chat-width: 100%;
+  --hds-chatbox-container-chat-background: #f0f4f8;
+  --hds-chatbox-container-border: 1px solid #dee2e6;
+  --hds-chatbox-container-border-radius: 16px 16px 0px 16px;
+  --hds-chatbox-container-message-color: #25282e;
+  --hds-chatbox-container-message-font-size: 14px;
+  --hds-chatbox-container-message-padding: 8px 16px 16px;
+  --hds-chatbox-chat-profile-padding: 12px 16px;
+  --hds-chatbox-chat-profile-gap: 8px;
+  --hds-chatbox-chat-profile-border-bottom: 1px solid #dee2e6;
+  --hds-chatbox-chat-profile-height: 32px;
+  --hds-chatbox-chat-profile-width: 32px;
+  --hds-chatbox-chat-profile-border-radius: 50%;
+  --hds-chatbox-chat-profile-background: #e6f7ff;
+  --hds-chatbox-chat-profile-font-size: 14px;
+  --hds-chatbox-chat-profile-font-weight: 700;
+  --hds-chatbox-chat-profile-date-font-size: 10px;
+  --hds-chatbox-chat-profile-date-font-color: #656c78;
+  --hds-chatbox-chat-profile-date-font-weight: 400;
+  --hds-chatbox-prompt-template-gap: 10px;
+  --hds-chatbox-prompt-template-width: 100%;
+  --hds-chatbox-prompt-template-background: #0468c8;
+  --hds-chatbox-prompt-template-border: 1px solid #0468c8;
+  --hds-chatbox-prompt-template-border-radius: 0px 28px 28px 28px;
+  --hds-chatbox-prompt-template-color: #fff;
+  --hds-chatbox-prompt-template-padding: 10px 16px;
+  --hds-chatbox-prompt-template-font-size: 14px;
+  --hds-chatbox-prompt-template-font-weight: 500;
+  --hds-chatbox-warpper-input-width: 100%;
+  --hds-chatbox-warpper-input-gap: 7px;
+  --hds-chatbox-warpper-input-background: #fff;
+  --hds-chatbox-warpper-input-border: 1px solid #d0d7de;
+  --hds-chatbox-warpper-input-border-radius: 16px 16px 16px 0px;
+  --hds-chatbox-warpper-profile-head-width: 100%;
+  --hds-chatbox-warpper-profile-head-grid-template-columns: 1fr 40px;
+  --hds-chatbox-warpper-message-color: #495057;
+  --hds-chatbox-warpper-message-font-weight: 400;
+  --hds-chatbox-warpper-message-font-size: 14px;
+  --hds-chatbox-warpper-message-padding: 8px 16px 16px;
+  --hds-chatbox-action-area-padding: 16px;
+  --hds-chatbox-profile-img-height: 75%;
+  --hds-chatbox-form-height: 64px;
+  --hds-chatbox-form-width: 100%;
+  --hds-chatbox-form-background: #fff;
+  --hds-chatbox-form-border: 1px solid #e7ecf1;
+  --hds-chatbox-form-border-radius: 9px 16px 0px 0px;
+  --hds-chatbox-form-padding: 12px;
+  --hds-chatbox-form-input-width: 100%;
+  --hds-chatbox-form-input-grid-template-columns: 40px 1fr 40px;
+  --hds-chatbox-form-input-border: 1px solid #d0d7de;
+  --hds-chatbox-form-input-border-radius: 3px;
+  --hds-chatbox-form-input-chat-icon-height: 40px;
+  --hds-chatbox-form-input-chat-icon-width: 40px;
+  --hds-chatbox-form-input-chat-text-box-width: 100%;
+  --hds-chatbox-form-input-chat-text-box-color: #000;
+  --hds-chatbox-form-input-chat-text-box-font-size: 16px;
+  --hds-chatbox-form-input-chat-text-box-padding: 0 10px;
+  --hds-chatbox-form-input-chat-border-radius: 5px;
+  --hds-chatbox-form-input-chat-placeholder-color: rgba(128, 128, 128, 0.578);
+  --hds-chatbox-form-input-chat-placeholder-font-size: 14px;
+
+  --hds-chatbox-TagButton-font-size: 12px;
+  --hds-chatbox-TagButton-font-weight: 400;
+  --hds-chatbox-TagButton-padding: 4px 10px;
+  --hds-chatbox-TagButton-gap: 6px;
+  --hds-chatbox-TagButton-img-width: 20px;
+}
