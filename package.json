@@ -1,5 +1,5 @@
 {
-  "name": "package-lib",
+  "name": "SCM-UI-library",
   "version": "0.0.1",
   "main": "dist/bundle",
   "assets": [
