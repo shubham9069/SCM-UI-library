@@ -7,20 +7,13 @@
       <div class="bottom">
         <keep-alive>
           <component
-            :is="ChatComponent"
-            v-bind="ChatProps"
+            :is="Component"
+            v-bind="Props"
+            :chatMessages="chatMessages"
+            :userDetails="userDetails"
             @close="$emit('closeSidebar')"
             @SentMessage="sentMessageParentComponent"
-            @input="
-              (value) => {
-                $emit('input', value);
-              }
-            "
-            @isChatActionArea="
-              (id) => {
-                $emit('isChatActionArea', id);
-              }
-            "
+            @isChatActionArea="(id) => $emit('isChatActionArea', id)"
           />
         </keep-alive>
       </div>
@@ -29,14 +22,10 @@
     <template v-for="section in toolkitItems" :key="section.section">
       <template v-if="section.section == 'Section 1'">
         <div
-          @click="
-            () => {
-              $emit('open', item.label);
-            }
-          "
           class="sidebaricon1"
           v-for="item in section.items"
           :key="item.label"
+          @click="ActiveComponent(item.label, item.Component, item.Props)"
           :style="{
             background: `${
               isVisible && item.label == selectedLabel
@@ -84,19 +73,30 @@
 <script>
 export default {
   name: "ToolKit",
-  emits: ["open", "closeSidebar", "sentMessage", "isChatActionArea", "input"],
+  emits: ["open", "closeSidebar", "sentMessage", "isChatActionArea"],
   components: {},
+  data() {
+    return {
+      Component: "",
+      Props: "",
+    };
+  },
   props: {
     toolkitItems: Array,
     toolkitStyle: Object,
     isVisible: Boolean,
-    ChatProps: Object,
-    ChatComponent: Object,
     selectedLabel: String,
+    chatMessages: Array,
+    userDetails: Object,
   },
   methods: {
-    sentMessageParentComponent(obj) {
-      this.$emit("sentMessage", obj);
+    ActiveComponent(label, component, props) {
+      this.Component = component;
+      this.Props = props;
+      this.$emit("open", label);
+    },
+    sentMessageParentComponent(value) {
+      this.$emit("sentMessage", value);
     },
   },
 };
@@ -104,6 +104,7 @@ export default {
 
 <style>
 @import "../../css/variable.css";
+
 .sidebar {
   border: 1px solid #e7ecf1;
   box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px,
@@ -117,10 +118,11 @@ export default {
 .sidebar > .sidebaricon1,
 .sidebar > .sidebaricon3,
 .sidebar > .sidebaricon2 {
-  padding: 0.5rem;
+  padding: 8px;
   border-radius: 3px;
   display: flex;
   align-items: center;
+  cursor: pointer;
 }
 .sidebar img {
   width: var(--hds-chatbox-header-logo-width);

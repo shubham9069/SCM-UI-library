@@ -7,6 +7,9 @@ import { terser } from "rollup-plugin-terser";
 import postcss from "rollup-plugin-postcss";
 import autoprefixer from "autoprefixer";
 import cssnano from "cssnano";
+import copy from "rollup-plugin-copy";
+import replace from "rollup-plugin-replace";
+
 export default {
   input: "src/components/index.js", // Path to your entry file
   output: {
@@ -24,6 +27,15 @@ export default {
       template: {
         isProduction: true, // Enable production mode for template compilation
       },
+    }),
+    copy({
+      targets: [{ src: "src/css/variable.css", dest: "dist/css" }],
+      // You can add more entries here if you need to copy multiple files
+      // e.g., { src: 'src/otherfile.css', dest: 'build' }
+    }),
+    replace({
+      "../../css/variable.css": "./css/variable.css",
+      delimiters: ["", ""],
     }),
     terser(),
     postcss({

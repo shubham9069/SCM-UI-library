@@ -7,7 +7,7 @@
         </div>
         <div class="profile-info">
           <span class="user-name">shubham </span>
-          <span class="chat-date">12/june/2001</span>
+          <span class="chat-date">16 May, 2:44 PM</span>
         </div>
       </div>
       <div class="message">

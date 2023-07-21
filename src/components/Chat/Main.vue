@@ -13,12 +13,17 @@
 
     <div className="chat-box-input">
       <input
+        id="search_Box"
         type="text"
         :placeholder="emptyChatContent?.inputPlaceholder"
-        @input="$emit('input', $event.target.value)"
-        @keyup.enter="SendMessage(this.inputMsg)"
+        @keyup.enter="
+          ($event) => {
+            SendMessage($event.target.value);
+            $event.target.value = '';
+          }
+        "
       />
-      <div @click="SendMessage(this.inputMsg)">
+      <div @click="SentmessageByButton">
         <img :src="emptyChatContent?.searchIcon" />
       </div>
     </div>
@@ -39,11 +44,7 @@
     </div>
   </div>
   <div class="chat-ui" v-else>
-    <div
-      class="chat_container chat-box"
-      id="chatcontainer"
-      :style="{ height: chatBoxInnerHeight }"
-    >
+    <div class="chat_container chat-box" id="chatcontainer">
       <template v-for="(message, index) in chatMessages" :key="index">
         <component
           :is="WrapperAi"
@@ -65,7 +66,7 @@
       </template>
     </div>
 
-    <form class="chat-form" @submit.prevent="SendMessage(this.inputMsg)">
+    <div class="chat-form">
       <div class="chat-input-group">
         <div class="chat-icon">
           <img :src="chatBoxStyle?.logo" alt="" />
@@ -75,16 +76,19 @@
           name="query"
           :placeholder="chatBoxStyle?.inputBoxPlaceholder"
           class="chat-textbox"
-          @input="$emit('input', $event.target.value)"
+          @keyup.enter="
+            ($event) => {
+              SendMessage($event.target.value);
+              $event.target.value = '';
+            }
+          "
           autocomplete="off"
-          :disabled="isInputDisabled"
-          :readonly="isInputDisabled"
         />
         <div class="chat-icon">
           <i></i>
         </div>
       </div>
-    </form>
+    </div>
   </div>
 </template>
 
@@ -101,9 +105,8 @@ export default {
     WrapperUserVue,
     WrapperAiVue,
   },
-  emits: ["close", "SentMessage", "isChatActionArea", "input"],
+  emits: ["close", "SentMessage", "isChatActionArea"],
   props: {
-    inputMsg: String,
     chatBoxStyle: {
       type: Object,
     },
@@ -123,7 +126,7 @@ export default {
   watch: {
     chatMessages: {
       handler(newVal, oldVal) {
-        this.scrollToBottom();
+        // this.scrollToBottom();
       },
       deep: true,
     },
@@ -136,18 +139,15 @@ export default {
     };
   },
   methods: {
-    SendMessage(inputText) {
-      if (inputText) {
-        this.$emit("SentMessage", inputText);
+    SendMessage(Value) {
+      if (Value) {
+        this.$emit("SentMessage", Value);
       }
     },
-    scrollToBottom() {
-      const chatContainer = document.getElementById("chatcontainer");
+    SentmessageByButton() {
+      var element = document?.getElementById("search_Box");
 
-      if (chatContainer) {
-        chatContainer.scrollTop = chatContainer?.scrollHeight;
-        console.log(chatContainer);
-      }
+      this.SendMessage(element.value);
     },
   },
 };
@@ -205,6 +205,7 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
+  cursor: pointer;
 }
 .chat_container .suggestion-box {
   display: flex;

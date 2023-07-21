@@ -5,7 +5,7 @@
     :chatBoxHeader="chatBoxHeader"
   />
   <div class="Chat-Box">
-    <h5>Recent Section</h5>
+    <h5>{{ Content }}</h5>
   </div>
 </template>
 
@@ -15,13 +15,12 @@ import { markRaw } from "vue";
 
 export default {
   name: "MainVue",
-  emits: ["close"],
+  emits: ["open", "closeSidebar", "sentMessage", "isChatActionArea"],
   props: {
-    inputMsg: String,
-
     chatBoxHeader: {
       type: Object,
     },
+    Content: String,
 
     userDetails: Object,
   },

@@ -32,6 +32,7 @@ export default {
   justify-content: space-between;
   grid-gap: var(--hds-chatbox-TagButton-gap);
   padding: var(--hds-chatbox-TagButton-padding);
+  cursor: pointer;
 }
 .tag-button > img {
   width: var(--hds-chatbox-TagButton-img-width);

@@ -8,7 +8,7 @@
         <div class="ai-profile-head">
           <div class="profile-info">
             <span class="user-name">Ai Logi </span>
-            <span class="chat-date">12-06-2883</span>
+            <span class="chat-date">16 May, 2:44 PM</span>
           </div>
         </div>
         <div class="three-dot">

@@ -58,6 +58,9 @@ export default {
   grid-gap: 20px;
   border: var(--hds-sidebar-border);
 }
+.top svg {
+  cursor: pointer;
+}
 .top p {
   font-size: 18px;
   margin: 0;

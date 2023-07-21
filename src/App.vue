@@ -1,25 +1,23 @@
 <template>
   <ToolKit
     :toolkitItems="toolkitItems"
-    :toolkitStyle="toolkitStyle"
     :isVisible="isVisible"
+    :selectedLabel="selectedTab"
+    :chatMessages="chatMessages"
+    :userDetails="userDetails"
     @open="
       (label) => {
-        this.selectedTab = label;
-        this.isVisible = true;
+        if (this.selectedTab == label) {
+          this.isVisible = !isVisible;
+        } else {
+          this.selectedTab = label;
+          this.isVisible = true;
+        }
       }
     "
     @closeSidebar="this.isVisible = false"
-    :selectedLabel="selectedTab"
     @sentMessage="sentMessage"
-    @isChatActionArea="ChartBoxFun"
-    @input="
-      (value) => {
-        this.inputMsg = value;
-      }
-    "
-    :ChatComponent="ChatCom"
-    :ChatProps="Props"
+    @isChatActionArea="ChatActionFunc"
   />
 
   <div />
@@ -29,7 +27,6 @@
 import { ToolKit, Chat, Recent } from "./components/index.js";
 import { markRaw } from "vue";
 /* eslint-disable vue/no-unused-components */
-console.log(Chat);
 export default {
   name: "app",
   emits: ["closeSidebar", "chart"],
@@ -50,6 +47,45 @@ export default {
               icon: "./assets/icons/ai-gradient.svg",
               selectedIcon: "./assets/icons/AI.svg",
               padding: 8,
+              Component: markRaw(Chat),
+              Props: {
+                chatBoxStyle: {
+                  logo: "./assets/icons/ai-gradient.svg",
+                  inputBoxPlaceholder: "Ask your data question",
+                  inputAttachmentIcon: "pi pi-paperclip",
+                  actionDropDownIcon: "pi pi-ellipsis-h",
+                },
+                emptyChatContent: {
+                  showEmptyChatHeader: true,
+                  title: "AI-Driven Insights Companion",
+                  inputPlaceholder: "Ask your data question",
+                  searchIcon: "../assets/icons/search.svg",
+                },
+                chatBoxHeader: {
+                  title: "AI Exploration",
+                  showChatBoxHeader: true,
+                },
+                savedTemplates: {
+                  icon: "../assets/icons/search-blue.svg",
+                  title: "Or Start With One of a Common Prompts",
+                  useTemplate: true,
+                  showSavedTemplate: true,
+                  templates: [
+                    {
+                      title: "Which category has most growth potential?",
+                      routerLink: "",
+                    },
+                    {
+                      title: "Which brands should be delisted? ",
+                      routerLink: "",
+                    },
+                    {
+                      title: "How are Price Driven Customers behaving?",
+                      routerLink: "",
+                    },
+                  ],
+                },
+              },
             },
             {
               label: "Recent",
@@ -57,6 +93,14 @@ export default {
               icon: "./assets/icons/history.svg",
               selectedIcon: "./assets/icons/white-history.svg",
               padding: 10,
+              Component: markRaw(Recent),
+              Props: {
+                chatBoxHeader: {
+                  title: "Recent",
+                  showChatBoxHeader: true,
+                },
+                Content: "shubham Recent Search ",
+              },
             },
           ],
         },
@@ -99,63 +143,18 @@ export default {
           ],
         },
       ],
-      // toolkitStyle: {
-      //   iconWidth: "25px",
-      //   iconHeight: "250px",
-      //   toolkitHeight: "100vh",
-      // },
+
       isVisible: false,
-      ChatCom: "",
-      Props: {},
-      //chat prop
-      chatBoxStyle: {
-        logo: "./assets/icons/ai-gradient.svg",
-        inputBoxPlaceholder: "Ask your data question",
-        inputAttachmentIcon: "pi pi-paperclip",
-        actionDropDownIcon: "pi pi-ellipsis-h",
-      },
-      emptyChatContent: {
-        showEmptyChatHeader: true,
-        title: "AI-Driven Insights Companion",
-        inputPlaceholder: "Ask your data question",
-        searchIcon: "../assets/icons/search.svg",
-      },
-      chatBoxHeader: {
-        title: "AI Exploration",
-        showChatBoxHeader: true,
-      },
-      savedTemplates: {
-        icon: "../assets/icons/search-blue.svg",
-        title: "Or Start With One of a Common Prompts",
-        useTemplate: true,
-        showSavedTemplate: true,
-        templates: [
-          {
-            title: "Which category has most growth potential?",
-            routerLink: "",
-          },
-          {
-            title: "Which brands should be delisted? ",
-            routerLink: "",
-          },
-          {
-            title: "How are Price Driven Customers behaving?",
-            routerLink: "",
-          },
-        ],
-      },
       userDetails: {
         name: "shubham",
         image: "./assets/icons/user.jpg",
       },
       chatMessages: [],
-      inputMsg: "",
       selectedTab: "",
     };
   },
   methods: {
     sentMessage(inputText) {
-      console.log(inputText);
       const obj = {
         isAI: false,
         text: inputText,
@@ -180,91 +179,25 @@ export default {
         isAI: true,
         id: this.chatMessages?.length + 1,
       });
+
+      // scroll to bottom function
+      //  when new msg are added into the chatMEssage Array so it will take few millisecound to update Dom so according to updated dom they will now look updated height of chat_container then scroll bottom
+
+      setTimeout(function () {
+        const chatContainer = document.getElementById("chatcontainer");
+
+        if (chatContainer) {
+          chatContainer.scrollTop = chatContainer?.scrollHeight;
+          console.log(chatContainer);
+        }
+      }, 50);
     },
-    ChartBoxFun(id) {
-      console.log(id);
+    ChatActionFunc(id) {
       this.chatMessages = this.chatMessages?.map((msg) => {
         return id == msg?.id
           ? { ...msg, isChatActionArea: !msg.isChatActionArea }
           : msg;
       });
-    },
-  },
-  watch: {
-    selectedTab(value) {
-      if (value == "Ai") {
-        this.ChatCom = markRaw(Chat);
-        this.Props = {
-          inputMsg: this.inputMsg,
-          chatBoxStyle: this.chatBoxStyle,
-          emptyChatContent: this.emptyChatContent,
-          chatBoxHeader: this.chatBoxHeader,
-          savedTemplates: this.savedTemplates,
-          chatMessages: this.chatMessages,
-          userDetails: this.userDetails,
-        };
-      } else if (value == "Recent") {
-        this.ChatCom = markRaw(Recent);
-        this.Props = {
-          chatBoxHeader: {
-            title: "Recent",
-            showChatBoxHeader: true,
-          },
-
-          userDetails: this.userDetails,
-        };
-      }
-    },
-    chatMessages: {
-      handler() {
-        if (this.selectedTab == "Ai") {
-          this.ChatCom = markRaw(Chat);
-          this.Props = {
-            inputMsg: this.inputMsg,
-            chatBoxStyle: this.chatBoxStyle,
-            emptyChatContent: this.emptyChatContent,
-            chatBoxHeader: this.chatBoxHeader,
-            savedTemplates: this.savedTemplates,
-            chatMessages: this.chatMessages,
-            userDetails: this.userDetails,
-          };
-        } else if (this.selectedTab == "Recent") {
-          this.ChatCom = markRaw(Recent);
-          this.Props = {
-            chatBoxHeader: {
-              title: "Recent",
-              showChatBoxHeader: true,
-            },
-
-            userDetails: this.userDetails,
-          };
-        }
-      },
-      deep: true,
-    },
-    inputMsg(prevous, value) {
-      if (this.selectedTab == "Ai") {
-        this.ChatCom = markRaw(Chat);
-        this.Props = {
-          inputMsg: this.inputMsg,
-          chatBoxStyle: this.chatBoxStyle,
-          emptyChatContent: this.emptyChatContent,
-          chatBoxHeader: this.chatBoxHeader,
-          savedTemplates: this.savedTemplates,
-          chatMessages: this.chatMessages,
-          userDetails: this.userDetails,
-        };
-      } else if (this.selectedTab == "Recent") {
-        this.ChatCom = markRaw(Recent);
-        this.Props = {
-          chatBoxHeader: {
-            title: "Recent",
-            showChatBoxHeader: true,
-          },
-
-          userDetails: this.userDetails,
-        };
-      }
     },
   },
 };
